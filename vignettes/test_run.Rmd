@@ -1,0 +1,64 @@
+---
+title: "Test Run"
+author: "Dylan Stark"
+output: html_document
+---
+
+```{r warning=FALSE,message=FALSE,results='hide'}
+library(acs)
+```
+
+```{r results='hide'}
+myFileName <- "../key/key.txt"
+myKey <- readChar(myFileName, file.info(myFileName)$size)
+api.key.install(myKey, file = "key.rda")
+```
+
+Installed key (``r myKey``).
+
+Testing lookup:
+
+```{r}
+lookup <- acs.lookup(endyear = 2011,
+                     span = 5,
+                     dataset = "acs",
+                     keyword = c("poverty", "workers"))
+lookup@endyear
+lookup@span
+head(lookup@results)
+```
+
+Testing looking up geography:
+
+```{r}
+geo_lookup <- geo.lookup(state = "IL",
+                         county = "Cook County")
+geo_lookup
+```
+
+Testing getting geography:
+
+```{r}
+geo <- geo.make(state = "IL",
+                county = "Cook County",
+                tract = "*")
+geo@geo.list[[1]]@name
+```
+
+Testing pulling table `B17014`:
+
+```r
+data <- acs.fetch(endyear = 2011,
+                  span = 5,
+                  geography = geo,
+                  table.number = "B17014")
+```
+
+Above does not work.
+I've seen multiple errors thrown internal to `acs.fetch`, each related to the constructed URL not being valid.
+The most recent error message looks like:
+
+```
+Error in if (url.test["statusMessage"] != "OK") { : 
+  missing value where TRUE/FALSE needed
+```

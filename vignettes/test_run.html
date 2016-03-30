@@ -68,7 +68,7 @@ img {
 
 <pre class="r"><code>library(acs)</code></pre>
 <pre class="r"><code>myFileName &lt;- &quot;../key/key.txt&quot;
-myKey &lt;- readChar(myFileName, file.info(myFileName)$size)
+myKey &lt;- readChar(myFileName, file.info(myFileName)$size - 1)
 api.key.install(myKey, file = &quot;key.rda&quot;)</code></pre>
 <p>Installed key (<code>f3205b771574544166fe5077a7266212c009d1d3</code>).</p>
 <p>Testing lookup:</p>
@@ -119,10 +119,19 @@ geo@geo.list[[1]]@name</code></pre>
 <pre class="r"><code>data &lt;- acs.fetch(endyear = 2011,
                   span = 5,
                   geography = geo,
-                  table.number = &quot;B17014&quot;)</code></pre>
-<p>Above does not work. I’ve seen multiple errors thrown internal to <code>acs.fetch</code>, each related to the constructed URL not being valid. The most recent error message looks like:</p>
-<pre><code>Error in if (url.test[&quot;statusMessage&quot;] != &quot;OK&quot;) { : 
-  missing value where TRUE/FALSE needed</code></pre>
+                  table.number = &quot;B17014&quot;)
+data@endyear</code></pre>
+<pre><code>## [1] 2011</code></pre>
+<pre class="r"><code>head(data@geography)</code></pre>
+<pre><code>##                                         NAME state county  tract
+## 1    Census Tract 101, Cook County, Illinois    17     31 010100
+## 2 Census Tract 102.01, Cook County, Illinois    17     31 010201
+## 3 Census Tract 102.02, Cook County, Illinois    17     31 010202
+## 4    Census Tract 103, Cook County, Illinois    17     31 010300
+## 5    Census Tract 104, Cook County, Illinois    17     31 010400
+## 6 Census Tract 105.01, Cook County, Illinois    17     31 010501</code></pre>
+<pre class="r"><code>levels(data@acs.units)</code></pre>
+<pre><code>## [1] &quot;count&quot;      &quot;dollars&quot;    &quot;proportion&quot; &quot;ratio&quot;      &quot;other&quot;</code></pre>
 
 
 </div>

@@ -10,7 +10,7 @@ library(acs)
 
 ```{r results='hide'}
 myFileName <- "../key/key.txt"
-myKey <- readChar(myFileName, file.info(myFileName)$size)
+myKey <- readChar(myFileName, file.info(myFileName)$size - 1)
 api.key.install(myKey, file = "key.rda")
 ```
 
@@ -47,18 +47,12 @@ geo@geo.list[[1]]@name
 
 Testing pulling table `B17014`:
 
-```r
+```{r}
 data <- acs.fetch(endyear = 2011,
                   span = 5,
                   geography = geo,
                   table.number = "B17014")
-```
-
-Above does not work.
-I've seen multiple errors thrown internal to `acs.fetch`, each related to the constructed URL not being valid.
-The most recent error message looks like:
-
-```
-Error in if (url.test["statusMessage"] != "OK") { : 
-  missing value where TRUE/FALSE needed
+data@endyear
+head(data@geography)
+levels(data@acs.units)
 ```

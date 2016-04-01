@@ -6,6 +6,7 @@ output: html_document
 
 ```{r warning=FALSE,message=FALSE,results='hide'}
 library(acs)
+library(stringr)
 ```
 
 ```{r results='hide'}
@@ -68,9 +69,7 @@ summary(df)
 Add tract information to data frame, and remove rownames.
 
 ```{r}
-library(stringr)
-df$tract <- str_extract(tracts, "[\\d.]{1,7}")
-assert all(!is.na(df$tract))
+df$tract <- str_extract(rownames(df), "[\\d.]{1,7}")
 
 rownames(df) <- NULL
 ```

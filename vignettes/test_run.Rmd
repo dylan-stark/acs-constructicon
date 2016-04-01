@@ -56,3 +56,21 @@ data@endyear
 head(data@geography)
 levels(data@acs.units)
 ```
+
+Create data frame.
+Each row corresponds to a tract within Cook County, IL.
+
+```{r}
+df <- data.frame(data@estimate)
+summary(df)
+```
+
+Add tract information to data frame, and remove rownames.
+
+```{r}
+library(stringr)
+df$tract <- str_extract(tracts, "[\\d.]{1,7}")
+assert all(!is.na(df$tract))
+
+rownames(df) <- NULL
+```

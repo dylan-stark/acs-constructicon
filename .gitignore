@@ -1,3 +1,4 @@
 *.zip
 key.txt
 *.Rhistory
+.Rproj.user
